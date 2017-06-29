@@ -6,4 +6,4 @@ ENV TOK=1234
 
 
 ENTRYPOINT ["ls"]
-CMD ["l", "h"]
+CMD ["l", "h", "a"]
