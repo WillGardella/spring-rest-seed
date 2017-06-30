@@ -5,4 +5,4 @@ RUN echo "hello"
 ENV TOK=1234
 
 ENTRYPOINT ["ls"]
-CMD ["l", "a", "h"]
+CMD ["l", "a"]
