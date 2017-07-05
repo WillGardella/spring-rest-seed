@@ -17,19 +17,19 @@ function err() {
 function main() {
     msg "branch is ${TRAVIS_BRANCH}"
 
-    local mvn="mvn --settings .settings.xml -B -V -U -Datomist.enabled=false"
+    local mvn="./mvnw --settings .settings.xml -B -V -U -Datomist.enabled=false"
 
     local project_version
     if [[ $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(m|rc)\.[0-9]+)?$ ]]; then
-        if ! mvn build-helper:parse-version versions:set -DnewVersion="$TRAVIS_TAG" versions:commit; then
+        if ! ./mvnw build-helper:parse-version versions:set -DnewVersion="$TRAVIS_TAG" versions:commit; then
             err "failed to set project version to $TRAVIS_TAG"
             return 1
         fi
         project_version=$TRAVIS_TAG
     else
-        project_version=$(mvn help:evaluate -Dexpression=project.version | grep -E '^[0-9]+\.[0-9]+\.[0-9](-([0-9]{14}|SNAPSHOT))?$' | tail -n 1)
+        project_version=$(./mvnw help:evaluate -Dexpression=project.version | grep -E '^[0-9]+\.[0-9]+\.[0-9](-([0-9]{14}|SNAPSHOT))?$' | tail -n 1)
         if [[ $? != 0 || ! $project_version ]]; then
-            err "failed to parse project version"
+            err "failed to parse project version: $project_version"
             return 1
         fi
     fi
